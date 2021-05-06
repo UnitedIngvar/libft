@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hcrakeha <hcrakeha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/02 14:36:12 by hcrakeha          #+#    #+#             */
-/*   Updated: 2021/05/02 20:19:22 by hcrakeha         ###   ########.fr       */
+/*   Created: 2021/05/02 13:22:41 by hcrakeha          #+#    #+#             */
+/*   Updated: 2021/05/04 17:55:18 by hcrakeha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
+static	int	ft_abs(int n)
 {
-	size_t	dst_len;
-	size_t	i;
+	if (n >= 0)
+		return (n);
+	return (-n);
+}
 
-	i = 0;
-	dst_len = 0;
-	while (dst[dst_len] && dst_len < size)
-		dst_len++;
-	while (dst_len + i + 1 < size && src[i])
+static	void	ft_recursive(int n, int fd)
+{
+	if (n != 0)
+		ft_recursive((n / 10), fd);
+	if (n != 0)
+		ft_putchar_fd((ft_abs(n % 10) + '0'), fd);
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	if (n == 0)
 	{
-		dst[dst_len + i] = src[i];
-		i++;
+		ft_putchar_fd('0', fd);
+		return ;
 	}
-	if (dst_len != size)
-		dst[dst_len + i] = '\0';
-	return (dst_len + ft_strlen(src));
+	if (n < 0)
+		ft_putchar_fd('-', fd);
+	ft_recursive(n, fd);
 }
